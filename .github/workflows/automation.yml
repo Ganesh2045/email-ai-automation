@@ -26,6 +26,9 @@ jobs:
       - name: Create service_account.json
         run: echo '${{ secrets.SERVICE_ACCOUNT }}' > service_account.json
 
+      - name: Create token.json
+        run: echo '${{ secrets.TOKEN_JSON }}' > token.json
+
       - name: Run automation
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
