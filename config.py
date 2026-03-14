@@ -1,4 +1,6 @@
-GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"
+import os
+
+GEMINI_API_KEY = os.getenv("AIzaSyANY_S7FAQM7Sth_5ZkgzZFUpZDTlr0rYs")
 
 SHEET_NAME = "EmailTasks"
 
