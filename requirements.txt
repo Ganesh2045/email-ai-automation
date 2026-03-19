@@ -2,5 +2,5 @@ google-api-python-client
 google-auth
 google-auth-oauthlib
 gspread
-google-generativeai
+google-genai
 schedule
