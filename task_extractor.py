@@ -1,13 +1,10 @@
-import google.generativeai as genai
+from google import genai
 from config import GEMINI_API_KEY
 
-genai.configure(api_key=GEMINI_API_KEY)
-
-model = genai.GenerativeModel("models/gemini-1.5-flash")
-
+# Initialize the new Client
+client = genai.Client(api_key=GEMINI_API_KEY)
 
 def extract_tasks(email_text):
-
     prompt = f"""
 Extract actionable tasks from this email.
 
@@ -38,8 +35,13 @@ Email:
 {email_text}
 """
 
-    response = model.generate_content(prompt)
+    # Use client.models.generate_content
+    response = client.models.generate_content(
+        model="gemini-1.5-flash", 
+        contents=prompt
+    )
 
-    tasks = response.text.split("\n")
-
+    # Access response text and process
+    tasks = response.text.strip().split("\n")
+    
     return tasks
