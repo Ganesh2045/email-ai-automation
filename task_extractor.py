@@ -37,17 +37,17 @@ Example:
 Email:
 {email_text}
     """
-try:
-        # CHANGE: Use the explicit version '001' or '002'
-        response = client.models.generate_content(
-            model="gemini-1.5-flash-001", 
-            contents=prompt
-        )
-        
-        if response and response.text:
-            return response.text.strip().split("\n")
-        return []
-
-    except Exception as e:
-        print(f"Extraction failed: {e}")
-        return []
+    try:
+            # CHANGE: Use the explicit version '001' or '002'
+            response = client.models.generate_content(
+                model="gemini-1.5-flash-001", 
+                contents=prompt
+            )
+            
+            if response and response.text:
+                return response.text.strip().split("\n")
+            return []
+    
+        except Exception as e:
+            print(f"Extraction failed: {e}")
+            return []
