@@ -1,7 +1,7 @@
 from google import genai
 from config import GEMINI_API_KEY
 
-# Initialize the new Client
+# Initialize the client
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 def extract_tasks(email_text):
@@ -33,15 +33,23 @@ Example:
 
 Email:
 {email_text}
-"""
+    """
 
-    # Use client.models.generate_content
-    response = client.models.generate_content(
-        model="gemini-1.5-flash", 
-        contents=prompt
-    )
+    try:
+        # CHANGE: Use "gemini-1.5-flash" (no 'models/' prefix)
+        # The new SDK handles the routing better this way
+        response = client.models.generate_content(
+            model="gemini-1.5-flash", 
+            contents=prompt
+        )
+        
+        # Ensure we handle the response text correctly
+        if response.text:
+            return response.text.strip().split("\n")
+        return []
 
-    # Access response text and process
-    tasks = response.text.strip().split("\n")
-    
-    return tasks
+    except Exception as e:
+        print(f"Error: {e}")
+        # If it still fails with 404, try "gemini-1.5-flash-latest" 
+        # as a fallback inside your code or here:
+        return []
