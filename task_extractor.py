@@ -1,12 +1,13 @@
 from google import genai
-from google.genai import types  # <--- Add this line
+from google.genai import types 
 from config import GEMINI_API_KEY
 
-# Initialize the client with the forced 'v1' API version
+# Initialize the client
 client = genai.Client(
     api_key=GEMINI_API_KEY,
     http_options=types.HttpOptions(api_version='v1')
 )
+
 def extract_tasks(email_text):
     prompt = f"""
 Extract actionable tasks from this email.
@@ -36,18 +37,20 @@ Example:
 
 Email:
 {email_text}
-    """
+"""
+
     try:
-            # CHANGE: Use the explicit version '001' or '002'
-            response = client.models.generate_content(
-                model="gemini-1.5-flash-001", 
-                contents=prompt
-            )
-            
-            if response and response.text:
-                return response.text.strip().split("\n")
-            return []
-    
-        except Exception as e:
-            print(f"Extraction failed: {e}")
-            return []
+        # These lines must be indented 4 spaces from 'try'
+        response = client.models.generate_content(
+            model="gemini-1.5-flash-001", 
+            contents=prompt
+        )
+        
+        if response and response.text:
+            return response.text.strip().split("\n")
+        return []
+
+    except Exception as e:
+        # This 'except' must line up exactly under 'try'
+        print(f"Extraction failed: {e}")
+        return []
