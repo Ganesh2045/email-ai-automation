@@ -1,9 +1,11 @@
 from google import genai
 from config import GEMINI_API_KEY
 
-# Initialize the client
-client = genai.Client(api_key=GEMINI_API_KEY)
-
+# Force the SDK to use the stable 'v1' endpoint
+client = genai.Client(
+    api_key=GEMINI_API_KEY,
+    http_options=types.HttpOptions(api_version='v1')
+)
 def extract_tasks(email_text):
     prompt = f"""
 Extract actionable tasks from this email.
