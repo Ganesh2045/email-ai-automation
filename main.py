@@ -25,12 +25,6 @@ def job():
     print("Tasks updated.")
 
 
-schedule.every(CHECK_INTERVAL_MINUTES).minutes.do(job)
-
 print("Automation started...")
 
-while True:
-
-    schedule.run_pending()
-
-    time.sleep(1)
+job()
