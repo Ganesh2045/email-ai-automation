@@ -1,7 +1,8 @@
 from google import genai
+from google.genai import types  # <--- Add this line
 from config import GEMINI_API_KEY
 
-# Force the SDK to use the stable 'v1' endpoint
+# Initialize the client with the forced 'v1' API version
 client = genai.Client(
     api_key=GEMINI_API_KEY,
     http_options=types.HttpOptions(api_version='v1')
