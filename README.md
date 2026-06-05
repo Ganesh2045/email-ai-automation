@@ -11,7 +11,7 @@ This system operates in two core cycles: the **AI Ingestion Pipeline** (GitHub A
 ```mermaid
 graph TD
     %% Ingestion Pipeline %%
-    subgraph Ingestion Pipeline (Every 10 Mins)
+    subgraph "Ingestion Pipeline (Every 10 Mins)"
         G[Gmail Inbox] -->|1. Fetch INBOX -label:Task-Extracted| P(main.py)
         P -->|2. Extract actionable tasks| GEM[Gemini 2.5 Flash API]
         GEM -->|3. Clean bullet items & format| P
@@ -20,7 +20,7 @@ graph TD
     end
 
     %% Web App Dashboard %%
-    subgraph Task Management Dashboard
+    subgraph "Task Management Dashboard"
         U[User Browser] <-->|Rest API requests| FA[Flask app.py Server]
         FA <-->|gspread reads/writes| GS
     end
