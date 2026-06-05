@@ -21,13 +21,19 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Create credentials.json
-        run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
+        run: echo "$GOOGLE_CREDENTIALS" > credentials.json
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
 
       - name: Create service_account.json
-        run: echo '${{ secrets.SERVICE_ACCOUNT }}' > service_account.json
+        run: echo "$SERVICE_ACCOUNT" > service_account.json
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
 
       - name: Create token.json
-        run: echo '${{ secrets.TOKEN_JSON }}' > token.json
+        run: echo "$TOKEN_JSON" > token.json
+        env:
+          TOKEN_JSON: ${{ secrets.TOKEN_JSON }}
 
       - name: Run automation
         env:

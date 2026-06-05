@@ -1,8 +1,8 @@
-def get_emails(service):
+def get_unread_emails(service):
 
     results = service.users().messages().list(
         userId="me",
-        labelIds=["INBOX"],
+        q="is:unread label:INBOX",
         maxResults=5
     ).execute()
 
@@ -19,6 +19,18 @@ def get_emails(service):
 
         snippet = message.get("snippet", "")
 
-        emails.append(snippet)
+        emails.append({
+            "id": msg["id"],
+            "snippet": snippet
+        })
 
     return emails
+
+
+def mark_as_read(service, message_id):
+
+    service.users().messages().modify(
+        userId="me",
+        id=message_id,
+        body={"removeLabelIds": ["UNREAD"]}
+    ).execute()
