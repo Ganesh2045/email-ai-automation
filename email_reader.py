@@ -1,8 +1,29 @@
-def get_unread_emails(service):
+def get_or_create_label(service, label_name="Task-Extracted"):
+    try:
+        labels = service.users().labels().list(userId="me").execute().get("labels", [])
+        for label in labels:
+            if label["name"].lower() == label_name.lower():
+                return label["id"]
+        
+        new_label = service.users().labels().create(
+            userId="me",
+            body={
+                "name": label_name,
+                "labelListVisibility": "labelShow",
+                "messageListVisibility": "show"
+            }
+        ).execute()
+        return new_label["id"]
+    except Exception as e:
+        print(f"Failed to get or create label '{label_name}': {e}")
+        return None
+
+
+def get_unprocessed_emails(service):
 
     results = service.users().messages().list(
         userId="me",
-        q="is:unread label:INBOX",
+        q="label:INBOX -label:Task-Extracted",
         maxResults=5
     ).execute()
 
@@ -27,10 +48,15 @@ def get_unread_emails(service):
     return emails
 
 
-def mark_as_read(service, message_id):
-
-    service.users().messages().modify(
-        userId="me",
-        id=message_id,
-        body={"removeLabelIds": ["UNREAD"]}
-    ).execute()
+def mark_as_processed(service, message_id, label_id):
+    if not label_id:
+        return
+    try:
+        service.users().messages().modify(
+            userId="me",
+            id=message_id,
+            body={"addLabelIds": [label_id]}
+        ).execute()
+    except Exception as e:
+        print(f"Failed to mark email {message_id} as processed: {e}")
+
