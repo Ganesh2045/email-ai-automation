@@ -1,7 +1,7 @@
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 
-SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
+SCOPES = ['https://www.googleapis.com/auth/gmail.modify']
 
 
 def gmail_auth():
