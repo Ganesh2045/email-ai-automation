@@ -8,8 +8,17 @@ app = Flask(__name__, template_folder="templates", static_folder="static")
 CORS(app)
 
 # Initialize Google Sheets client
-gc = gspread.service_account(filename="service_account.json")
-sheet = gc.open(SHEET_NAME).sheet1
+try:
+    gc = gspread.service_account(filename="service_account.json")
+    sheet = gc.open(SHEET_NAME).sheet1
+except FileNotFoundError:
+    print("\n" + "="*80)
+    print("ERROR: 'service_account.json' is missing in your local project folder!")
+    print("To connect to Google Sheets, please create a file named 'service_account.json'")
+    print("in this folder and paste your Service Account JSON credentials inside it.")
+    print("="*80 + "\n")
+    import sys
+    sys.exit(1)
 
 @app.route("/")
 def index():
