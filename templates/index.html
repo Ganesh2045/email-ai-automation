@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Task Automation Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Dashboard Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <span class="sparkle-icon">✨</span>
+                <div>
+                    <h1>TaskAI Dashboard</h1>
+                    <p class="subtitle">Actionable email tasks automated via Gemini</p>
+                </div>
+            </div>
+            
+            <!-- Stats Summary -->
+            <div class="stats-container">
+                <div class="stat-card" id="stat-total">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Total Tasks</div>
+                </div>
+                <div class="stat-card" id="stat-pending">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card" id="stat-completed">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="app-main">
+            <!-- Toolbar: Filter & Search -->
+            <section class="toolbar">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-input" placeholder="Search tasks..." autocomplete="off">
+                </div>
+                
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="high">🔴 High</button>
+                    <button class="filter-btn" data-filter="medium">🟡 Medium</button>
+                    <button class="filter-btn" data-filter="low">🟢 Low</button>
+                    <button class="filter-btn" data-filter="pending">🕒 Pending</button>
+                    <button class="filter-btn" data-filter="completed">✅ Completed</button>
+                </div>
+
+                <button class="add-task-trigger" id="open-modal-btn">
+                    <span class="plus-icon">+</span> Add Task
+                </button>
+            </section>
+
+            <!-- Loading Spinner -->
+            <div class="loading-state" id="loading-spinner">
+                <div class="spinner"></div>
+                <p>Loading tasks from Google Sheet...</p>
+            </div>
+
+            <!-- Task List -->
+            <section class="tasks-section">
+                <div class="tasks-list" id="tasks-list">
+                    <!-- Tasks injected here -->
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state hidden" id="empty-state">
+                    <div class="empty-icon">📂</div>
+                    <h3>No tasks found</h3>
+                    <p>Try sending emails with tasks, or add a task manually using the button above.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Task Modal -->
+    <div class="modal-overlay hidden" id="task-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>Create New Task</h2>
+                <button class="close-btn" id="close-modal-btn">&times;</button>
+            </div>
+            <form id="add-task-form">
+                <div class="form-group">
+                    <label for="task-title">Task Description</label>
+                    <input type="text" id="task-title" placeholder="e.g., Complete CCC LeetCode assessment" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Priority</label>
+                    <div class="priority-selector">
+                        <label class="priority-option high">
+                            <input type="radio" name="priority" value="HIGH" required>
+                            <span>🔴 High</span>
+                        </label>
+                        <label class="priority-option medium">
+                            <input type="radio" name="priority" value="MEDIUM" checked>
+                            <span>🟡 Medium</span>
+                        </label>
+                        <label class="priority-option low">
+                            <input type="radio" name="priority" value="LOW">
+                            <span>🟢 Low</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="cancel-modal-btn">Cancel</button>
+                    <button type="submit" class="btn-primary">Add Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

@@ -3,3 +3,5 @@ google-auth
 google-auth-oauthlib
 gspread
 google-genai
+flask
+flask-cors
